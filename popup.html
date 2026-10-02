@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sürat Kargo Mesaj</title>
+  <style>
+    :root {
+      --bg: #14141c;
+      --surface: #1c1c27;
+      --border: #2c2c3c;
+      --text: #ececf4;
+      --muted: #8a8aa0;
+      --accent: #d32f2f;
+      --ok: #3dba6a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 420px;
+      background: var(--bg);
+      color: var(--text);
+      font: 13px/1.45 "Segoe UI", Tahoma, sans-serif;
+    }
+    header {
+      padding: 12px 14px;
+      border-bottom: 2px solid var(--accent);
+      background: var(--surface);
+    }
+    h1 {
+      margin: 0;
+      font-size: 14px;
+    }
+    p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    main { padding: 12px 14px 14px; }
+    .setting {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .setting input[type="checkbox"] {
+      margin-top: 2px;
+      accent-color: var(--accent);
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+    .setting-number {
+      margin-left: auto;
+      flex-shrink: 0;
+      width: 72px;
+      height: 30px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font: 13px/1.2 "Segoe UI", Tahoma, sans-serif;
+      text-align: center;
+    }
+    .setting-title { font-weight: 600; }
+    .setting-sub { color: var(--muted); font-size: 11px; margin-top: 2px; display: block; }
+    .setting-actions { margin-left: auto; flex-shrink: 0; }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    textarea {
+      width: 100%;
+      min-height: 260px;
+      resize: vertical;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font: 12px/1.45 Consolas, "Courier New", monospace;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    button {
+      border: 0;
+      border-radius: 6px;
+      padding: 7px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .save { background: var(--accent); color: #fff; }
+    .reset { background: #2a2a38; color: var(--text); }
+    #status {
+      margin-left: auto;
+      align-self: center;
+      color: var(--ok);
+      font-size: 12px;
+      min-height: 16px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+    .chip {
+      background: #2a2a38;
+      border: 1px solid var(--border);
+      color: #d7d7e8;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: Consolas, monospace;
+    }
+    .chip:hover { border-color: var(--accent); color: #fff; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sürat Kargo Mesaj</h1>
+    <p>Şablonu kaydet, listede Yazdır yanındaki Mesaj Oluştur’a bas.</p>
+  </header>
+  <main>
+    <label class="setting">
+      <input type="checkbox" id="warnIfDelivered" />
+      <span>
+        <span class="setting-title">Teslim edilmişse sor</span>
+        <span class="setting-sub">Teslimat durum TeslimEdildi ise mesajdan önce onay iste</span>
+      </span>
+    </label>
+    <div class="setting">
+      <span>
+        <span class="setting-title">Yedek parça desi</span>
+        <span class="setting-sub">Toplam desi bu değerin altındaysa satır Yedek işaretlenir</span>
+      </span>
+      <input type="number" id="spareDesi" class="setting-number" min="0" step="0.1" />
+    </div>
+    <div class="setting">
+      <span>
+        <span class="setting-title">İşaretlenen siparişler</span>
+        <span class="setting-sub"><span id="contactedCount">0</span> sipariş kodu işaretli (WebSiparisKodu)</span>
+      </span>
+      <button type="button" class="reset setting-actions" id="clearContacted">İşaretleri temizle</button>
+    </div>
+    <label for="template">Mesaj şablonu</label>
+    <textarea id="template" spellcheck="false"></textarea>
+    <div class="chips" id="chips"></div>
+    <div class="row">
+      <button class="save" id="save" type="button">Kaydet</button>
+      <button class="reset" id="reset" type="button">Varsayılana dön</button>
+      <span id="status"></span>
+    </div>
+  </main>
+  <script src="defaults.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

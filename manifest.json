@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Sürat Kargo Mesaj",
+  "version": "1.5.16",
+  "description": "Gönderilen Kargo listesinden müşteri mesajı ve telefon kopyalar.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://ekargo.suratkargo.com.tr/*",
+    "https://www.suratkargo.com.tr/*",
+    "https://suratkargo.com.tr/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Sürat Kargo Mesaj",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://ekargo.suratkargo.com.tr/Raporlar/GonderilenKargo*"
+      ],
+      "js": ["page-hook.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://ekargo.suratkargo.com.tr/Raporlar/GonderilenKargo*"
+      ],
+      "js": ["defaults.js", "pdf.min.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["pdf.worker.min.js"],
+      "matches": ["https://ekargo.suratkargo.com.tr/*"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
